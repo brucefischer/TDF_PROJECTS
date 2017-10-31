@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="ShopDemo" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="KNOWLEDG" type="server">
+<id dbms="DB2" host="192.168.99.100" name="KNOWLEDG" port="50000"/>
+<schemas>
+<schema alias="USA" name="USA">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="OLDCRED" type="server">
+<id dbms="DB2" host="192.168.99.100" name="OLDCRED" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="SHOPDB" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="ClientCreationRules">
+<rule enabled="true" name="names" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.FIRST_NAME"/>
+<column id="SHOPDB.DB2INST1.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="phones" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ssn" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CreditCard" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.ISSUER"/>
+<column id="SHOPDB.DB2INST1.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SHOPDB.DB2INST1.CLIENT.ISSUER">
+<values>
+<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
+<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SHOPDB.DB2INST1.CLIENT.CCN">
+<values>
+<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
+<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
+<description/>
+<constraint>(SHOPDB.DB2INST1.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+<rule enabled="true" name="addresses" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+<column id="SHOPDB.DB2INST1.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ProductCreationRules">
+<rule enabled="true" name="prices" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.PRODUCT.PRICE &gt; 10 &amp;&amp; SHOPDB.DB2INST1.PRODUCT.PRICE &lt; 2000</constraint>
+</rule>
+<rule enabled="true" name="availability" type="Constraint Rule">
+<description/>
+<constraint>((SHOPDB.DB2INST1.PRODUCT.PRICE &gt; 1000) -&gt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE memberOf{[2,20]})&amp;&amp; ((SHOPDB.DB2INST1.PRODUCT.PRICE &lt;= 1000) -&gt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE memberOf{[10,400]})</constraint>
+</rule>
+<rule enabled="true" name="product_names" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.PRODUCT.NAME = r'PR_[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="OrderCreationRules">
+<rule enabled="true" name="amount" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.AMOUNT &lt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE &amp;&amp; SHOPDB.DB2INST1.ORDER.AMOUNT &gt; 0</constraint>
+</rule>
+<rule enabled="true" name="cost" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.COST &gt; 0 &amp;&amp; SHOPDB.DB2INST1.ORDER.COST &lt; SHOPDB.DB2INST1.PRODUCT.PRICE</constraint>
+</rule>
+<rule enabled="true" name="payment" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.PAYMENT memberOf{s'Cash', s'Credit'}</constraint>
+</rule>
+<rule enabled="true" name="status" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.STATUS = randomWeightedNumber(50?s'DELIVERED',40?s'ISSUED',10?s'CANCELED')</constraint>
+</rule>
+<rule enabled="true" name="details" type="Constraint Rule">
+<description/>
+<constraint>(SHOPDB.DB2INST1.ORDER.PAYMENT = s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = concat(SHOPDB.DB2INST1.CLIENT.ISSUER,SHOPDB.DB2INST1.CLIENT.CCN)) &amp;&amp; (SHOPDB.DB2INST1.ORDER.PAYMENT != s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = s'')</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="ClientConfiguration">
+<description/>
+<params/>
+<rules>
+<rule id="ClientCreationRules" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
+</tables>
+</config>
+<config name="ProductConfiguration">
+<description/>
+<params/>
+<rules>
+<rule id="ProductCreationRules" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="60"/>
+</tables>
+</config>
+<config name="OrderConfiguration">
+<description/>
+<params/>
+<rules>
+<rule id="OrderCreationRules" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.ORDER" records="50"/>
+<table id="SHOPDB.DB2INST1.CLIENT" records="0"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="50"/>
+</tables>
+</config>
+<config name="FullFabrication">
+<description/>
+<params/>
+<rules>
+<rule id="ClientCreationRules" type="RULESET"/>
+<rule id="ProductCreationRules" type="RULESET"/>
+<rule id="OrderCreationRules" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="30"/>
+<table id="SHOPDB.DB2INST1.ORDER" records="40"/>
+</tables>
+</config>
+</configs>
+</project>

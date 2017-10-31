@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="Messages" type="file" version="2.6">
+<properties>
+<enum name="Date format" value="dd/MM/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<sources/>
+<targets>
+<table maxSize="10" minSize="7" name="ClientMessage">
+<fields>
+<variable name="ID" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="First_Name" nullable="false" type="String">
+<persistency length="30" style="Fixed"/>
+</variable>
+<variable name="Last_Name" nullable="false" type="String">
+<persistency length="30" style="Fixed"/>
+</variable>
+</fields>
+</table>
+<table maxSize="30" minSize="10" name="TransactionMessage">
+<fields>
+<variable name="ID" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="AccountId" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="Amount" nullable="false" type="Decimal">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="*.000">
+<values>
+<value>*.0</value>
+<value>*.00</value>
+<value>*.000</value>
+<value>*.0000</value>
+<value>*.00000</value>
+<value>*.000000</value>
+<value>*.0000000</value>
+<value>*.00000000</value>
+<value>*.000000000</value>
+</values>
+</enum>
+</persistency>
+</variable>
+<variable name="IssueDate" nullable="false" type="Date">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+</fields>
+</table>
+<table maxSize="15" minSize="10" name="AccountMessage">
+<fields>
+<variable name="ID" nullable="false" type="Integer">
+<persistency length="8" style="Fixed"/>
+</variable>
+<variable name="CLientID" nullable="false" type="Integer">
+<persistency length="8" style="Fixed"/>
+</variable>
+<variable name="OpenDate" nullable="false" type="Date">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+<variable name="CloseDate" nullable="true" type="Date">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+</fields>
+</table>
+</targets>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="Clients">
+<rule enabled="true" name="FirstNames" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="ClientMessage.First_Name"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files\TDFApplication\files\KnowledgeBase\DFP_KB\names.csv</value>
+</path>
+<enum name="ClientMessage.First_Name" value="1">
+<values>
+<value>1</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="LastNames" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="ClientMessage.Last_Name"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files\TDFApplication\files\KnowledgeBase\DFP_KB\names.csv</value>
+</path>
+<enum name="ClientMessage.Last_Name" value="1">
+<values>
+<value>1</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="ID" type="Constraint Rule">
+<description/>
+<constraint>allDiff(ClientMessage.ID)</constraint>
+</rule>
+<rule enabled="true" name="PositiveID" type="Constraint Rule">
+<description/>
+<constraint>forEach(ClientMessage.ID &gt; 0)</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="Transactions">
+<rule enabled="true" name="ID" type="Constraint Rule">
+<description/>
+<constraint>allDiff(TransactionMessage.ID)</constraint>
+</rule>
+<rule enabled="true" name="Amount" type="Constraint Rule">
+<description/>
+<constraint>forEach(TransactionMessage.Amount &gt; 0 and TransactionMessage.Amount &lt; 10000)</constraint>
+</rule>
+<rule enabled="true" name="AccountID" type="Constraint Rule">
+<description/>
+<constraint>forEach(i,0,sizeOf(TransactionMessage)-1, 
+       exist(j,0,sizeOf(AccountMessage)-1, (AccountMessage[j].ID = TransactionMessage[i].AccountId)))</constraint>
+</rule>
+<rule enabled="true" name="IssueDate" type="Constraint Rule">
+<description/>
+<constraint>forEach(TransactionMessage.IssueDate = CurrentDate)</constraint>
+</rule>
+<rule enabled="true" name="PositiveID" type="Constraint Rule">
+<description/>
+<constraint>forEach(TransactionMessage.ID &gt; 0)</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="Accounts">
+<rule enabled="true" name="ID" type="Constraint Rule">
+<description/>
+<constraint>allDiff(AccountMessage.ID)</constraint>
+</rule>
+<rule enabled="true" name="ClientId" type="Constraint Rule">
+<description/>
+<constraint>forEach(i,0,sizeOf(AccountMessage)-1, 
+       exist(j,0,sizeOf(ClientMessage)-1, (ClientMessage[j].ID = AccountMessage[i].CLientID)))</constraint>
+</rule>
+<rule enabled="true" name="OpenCloseDate" type="Constraint Rule">
+<description/>
+<constraint>forEach(AccountMessage.OpenDate &lt; AccountMessage.CloseDate &lt; 31/12/2020)</constraint>
+</rule>
+<rule enabled="true" name="PositiveID" type="Constraint Rule">
+<description/>
+<constraint>forEach(AccountMessage.ID &gt; 0)</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config filePath="C:\Program Files\TDFApplication\files\Fabricated" name="Messages">
+<description/>
+<params/>
+<rules>
+<rule id="Clients" type="RULESET"/>
+<rule id="Transactions" type="RULESET"/>
+<rule id="Accounts" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="clients.csv" writemode="Overwrite">
+<structs>
+<struct id="ClientMessage"/>
+</structs>
+</fileconfig>
+<fileconfig filename="accounts.xls" writemode="Overwrite">
+<structs>
+<struct id="AccountMessage"/>
+</structs>
+</fileconfig>
+<fileconfig filename="transactions.csv" writemode="Overwrite">
+<structs>
+<struct id="TransactionMessage"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+</configs>
+</project>

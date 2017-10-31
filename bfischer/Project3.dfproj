@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="Project3" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="DFP_KnowledgeBase" type="file">
+<id dbms="SQLite" name="DFP_KB.db" path="C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\"/>
+<schemas>
+<schema alias="main" name="main">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="SHOPDB" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="CLIENT_AutoRulesSet">
+<rule enabled="true" name="FIRST_NAME" type="Knowledge Base Rule">
+<description>Random real first name generator. [knowledge base]</description>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.names.name"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.FIRST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="LAST_NAME" type="Knowledge Base Rule">
+<description>Random real last name generator. [knowledge base]</description>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.surnames.name"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="PHONE" type="USA Phone Number Rule">
+<description>USA Phone number generator</description>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="SSN" type="Social Security Number Rule">
+<description>US SSN generator</description>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CCN" type="Credit Card Number Rule">
+<description>TODO</description>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CCN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ISSUER" type="Constraint Rule">
+<description>TODO</description>
+<constraint>SHOPDB.DB2INST1.CLIENT.ISSUER = randomWeightedNumber(258?s'American Express',
+								 192?s'MasterCard',
+								 329? s'Visa',
+								 57?s'Discover',
+								 8?s'Diners',
+								 8?s'Enroute',
+								 8?s'JCB',
+								 8?s'Voyager')</constraint>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description>Random real GB city name generator. [knowledge base]</description>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.gb_postal_codes.place"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description>Random real US state name generator. [knowledge base]</description>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.us_postal_codes.state_name"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ORDER_AutoRulesSet">
+<rule enabled="true" name="AMOUNT" type="Constraint Rule">
+<description>TODO</description>
+<constraint>0 &lt; SHOPDB.DB2INST1.ORDER.AMOUNT &lt;= 1000</constraint>
+</rule>
+<rule enabled="true" name="COST" type="Constraint Rule">
+<description>TODO</description>
+<constraint>0 &lt; SHOPDB.DB2INST1.ORDER.COST &lt;= 1000000</constraint>
+</rule>
+<rule enabled="true" name="PAYMENT" type="Constraint Rule">
+<description>TODO</description>
+<constraint>SHOPDB.DB2INST1.ORDER.PAYMENT = randomWeightedNumber(78?s'Credit Card',
+								 9?s'Cash',
+								 3?s'PayPal',
+								 2?s'Check')</constraint>
+</rule>
+<rule enabled="true" name="DETAILS" type="Constraint Rule">
+<description>TODO</description>
+<constraint>width(SHOPDB.DB2INST1.ORDER.DETAILS) &lt;= 4000</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="PRODUCT_AutoRulesSet">
+<rule enabled="true" name="NAME" type="Knowledge Base Rule">
+<description>Random real first name generator. [knowledge base]</description>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.names.name"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.PRODUCT.NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="PRICE" type="Constraint Rule">
+<description>TODO</description>
+<constraint>0 &lt; SHOPDB.DB2INST1.PRODUCT.PRICE &lt;= 500</constraint>
+</rule>
+<rule enabled="true" name="AVAILABLE" type="Constraint Rule">
+<description>TODO</description>
+<constraint>0 &lt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE &lt;= 500</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="RULES1">
+<description/>
+<params/>
+<rules>
+<rule id="CLIENT_AutoRulesSet" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.CLIENT" records="1"/>
+</tables>
+</config>
+<config name="RULES2">
+<description/>
+<params/>
+<rules>
+<rule id="PRODUCT_AutoRulesSet" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="1"/>
+</tables>
+</config>
+<config name="RULES4">
+<description/>
+<params/>
+<rules>
+<rule id="CLIENT_AutoRulesSet" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.DB2INST1.CLIENT" records="1"/>
+</tables>
+</config>
+</configs>
+</project>

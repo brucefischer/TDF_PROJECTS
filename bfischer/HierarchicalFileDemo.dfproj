@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="HierarchicalFileDemo" type="file" version="2.6">
+<properties>
+<enum name="Date format" value="dd/MM/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<sources/>
+<targets>
+<struct name="FILE">
+<fields>
+<variable name="FILE_ID" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<table maxSize="5" minSize="1" name="BATCH">
+<fields>
+<variable name="BATCH_ID" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="BATCH_DATE" nullable="false" type="Date">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+<table maxSize="8" minSize="1" name="TRANSACTION">
+<fields>
+<variable name="TRANSACTION_ID" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="TRANSACTION_TYPE" nullable="false" type="String">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="TRANSACTION_AMOUNT" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+</fields>
+</table>
+<variable name="TRANSACTION_COUNT" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="BATCH_TOTAL" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+</fields>
+</table>
+<variable name="BATCH_COUNT" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="FILE_TOTAL" nullable="false" type="Integer">
+<persistency length="10" style="Fixed"/>
+</variable>
+</fields>
+</struct>
+</targets>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="FILE">
+<rule enabled="true" name="BATCH_ID" type="Constraint Rule">
+<description>This rule initializes BATCH_ID with increments. The maximal value is the
+size of BATCH table</description>
+<constraint>allDiff(FILE.BATCH.BATCH_ID)</constraint>
+</rule>
+<rule enabled="true" name="BATCH_DATE" type="Constraint Rule">
+<description>This rule initializes BATCH_DATE with the current date</description>
+<constraint>forEach(FILE.BATCH.BATCH_DATE = CurrentDate)</constraint>
+</rule>
+<rule enabled="true" name="TRANSACTION_ID" type="Constraint Rule">
+<description>This rule initializes TRANSACTION_ID with increment. A maximal
+value is the size of TRANSACTION table. Here we have a nested loop, because of the
+nested hierarchy of two tables (TRANSACTION table is included in BATCH table).</description>
+<constraint>allDiff(FILE.BATCH.TRANSACTION.TRANSACTION_ID)</constraint>
+</rule>
+<rule enabled="true" name="TRANSACTION_COUNT" type="Constraint Rule">
+<description>This rule initializes TRANSACTION_COUNT with the number of TRANSACTION tables. Attribute “isActivePath=True” is required in sumOf function.</description>
+<constraint>forEach(FILE.BATCH: TRANSACTION_COUNT=sizeOf(TRANSACTION))</constraint>
+</rule>
+<rule enabled="true" name="BATCH_COUNT" type="Constraint Rule">
+<description>This rule initializes BATCH_COUNT with the number of BATCH tables.</description>
+<constraint>FILE.BATCH_COUNT=sizeOf(FILE.BATCH)</constraint>
+</rule>
+<rule enabled="true" name="FILE_TOTAL" type="Constraint Rule">
+<description>This rule initializes FILE_TOTAL with the summation of values in
+BATCH_TOTAL in each BATCH table.</description>
+<constraint>FILE.FILE_TOTAL=sumOf(FILE.BATCH.BATCH_TOTAL)</constraint>
+</rule>
+<rule enabled="true" name="BATCH_TOTAL" type="Constraint Rule">
+<description/>
+<constraint>forEach(FILE.BATCH: BATCH_TOTAL = sumOf(TRANSACTION.TRANSACTION_AMOUNT))</constraint>
+</rule>
+<rule enabled="true" name="TRANSACTION_TYPE" type="Constraint Rule">
+<description/>
+<constraint>forEach(FILE.BATCH.TRANSACTION: TRANSACTION_TYPE = (TRANSACTION_AMOUNT &gt;= 0 ? s'deposit' : s'withdrawal'))</constraint>
+</rule>
+<rule enabled="true" name="TRANSACTION_AMOUNT" type="Constraint Rule">
+<description/>
+<constraint>forEach(-1000 &lt; FILE.BATCH.TRANSACTION.TRANSACTION_AMOUNT &lt; 1000)</constraint>
+</rule>
+<rule enabled="true" name="BATCH_ID_POSITIVE" type="Constraint Rule">
+<description/>
+<constraint>forEach(FILE.BATCH.BATCH_ID &gt; 0)</constraint>
+</rule>
+<rule enabled="true" name="TRANSACTION_ID_POSITIVE" type="Constraint Rule">
+<description/>
+<constraint>forEach(FILE.BATCH.TRANSACTION.TRANSACTION_ID &gt; 0)</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config filePath="C:\Program Files\TDFApplication\files\Fabricated" name="GenerateFile">
+<description/>
+<params/>
+<rules>
+<rule id="FILE" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="HierarchicalFile.txt" writemode="Overwrite">
+<structs>
+<struct id="FILE"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="test">
+<description/>
+<params/>
+<rules>
+<rule id="FILE" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="tst.csv" writemode="Overwrite">
+<structs>
+<struct id="FILE"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+</configs>
+</project>

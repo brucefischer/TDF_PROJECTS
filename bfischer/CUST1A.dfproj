@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="CUST1A" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="KNOWLEDG" type="server">
+<id dbms="DB2" host="192.168.99.100" name="KNOWLEDG" port="50000"/>
+<schemas>
+<schema alias="USA" name="USA">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="DFP_KnowledgeBase" type="file">
+<id dbms="SQLite" name="DFP_KB.db" path="C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\"/>
+<schemas>
+<schema alias="main" name="main">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="OPTIM" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas/>
+</db>
+<db alias="SAMPLE" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="PRIVACY" name="PRIVACY">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="localhost" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="TARGET" name="TARGET">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="All_Tables">
+<ruleset enabled="true" name="Customers">
+<rule enabled="true" name="CUSTOMERS_CUST_ID" type="Unique Random String Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CUST_ID"/>
+</targets>
+</columns>
+<properties>
+<enum name="Alphabet" value="[0-9]">
+<values>
+<value>[0-9]</value>
+<value>[a-z]</value>
+<value>[A-Z]</value>
+<value>[0-9]|[a-z]</value>
+<value>[0-9]|[A-Z]</value>
+<value>[a-z no vowels]</value>
+<value>[A-Z no vowels]</value>
+</values>
+</enum>
+<int max="32" min="1" name="Length" value="5"/>
+</properties>
+</rule>
+<ruleset enabled="true" name="CUSTOMER_ADDRESS">
+<rule enabled="true" name="CUSTOMER_ADDRESS1" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ADDRESS1"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ADDRESS2"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.CITY"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.STATE"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ZIPPLUS4"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ZIPCODE"/>
+</sources>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.ADDRESS1"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.ADDRESS2"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CITY"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.STATE"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE_PLUS4"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<rule enabled="true" name="CUSTOMERS_CUSTNAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="SAMPLE.PRIVACY.OPTIM_COMPANY.NAME"/>
+</sources>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CUSTNAME"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ORDERS">
+<rule enabled="true" name="ORDERS_ORDER_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="localhost.TARGET.OPTIM_ORDERS.ORDER_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="8"/>
+</properties>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="DETAILS">
+<rule enabled="true" name="DETAILS_ITEM_QUANTITY" type="Constraint Rule">
+<description/>
+<constraint>1 &lt;= localhost.TARGET.OPTIM_DETAILS.ITEM_QUANTITY &lt;= 100</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ITEMS">
+<rule enabled="true" name="ITEMS_ITEM_ID" type="Constraint Rule">
+<description/>
+<constraint>localhost.TARGET.OPTIM_ITEMS.ITEM_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="SALES">
+<rule enabled="true" name="SALES_SALESMAN_ID" type="Constraint Rule">
+<description/>
+<constraint>localhost.TARGET.OPTIM_SALES.SALESMAN_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+</ruleset>
+</rules>
+<configs>
+<config name="TEST">
+<description/>
+<params/>
+<rules>
+<rule id="All_Tables" type="RULESET"/>
+</rules>
+<tables>
+<table id="localhost.TARGET.OPTIM_CUSTOMERS" records="5000"/>
+<table id="localhost.TARGET.OPTIM_SALES" records="5000"/>
+<table id="localhost.TARGET.OPTIM_ORDERS" records="5000"/>
+<table id="localhost.TARGET.OPTIM_DETAILS" records="5000"/>
+<table id="localhost.TARGET.OPTIM_ITEMS" records="5000"/>
+</tables>
+</config>
+</configs>
+</project>

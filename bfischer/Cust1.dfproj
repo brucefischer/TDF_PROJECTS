@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="Cust1" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources/>
+<targets>
+<db alias="SHOPDB" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="OPTIM" name="OPTIM">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="Sales1">
+<rule enabled="true" name="SALESMAN_ID" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.OPTIM.OPTIM_SALES.SALESMAN_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+<rule enabled="true" name="CUST_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.OPTIM.OPTIM_CUSTOMERS.CUST_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="5"/>
+</properties>
+</rule>
+<rule enabled="true" name="ITEM_ID" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.OPTIM.OPTIM_ITEMS.ITEM_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+<rule enabled="true" name="ORDER_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.OPTIM.OPTIM_ORDERS.ORDER_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="5"/>
+</properties>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="SALES1">
+<description/>
+<params/>
+<rules>
+<rule id="Sales1.SALESMAN_ID" type="RULE"/>
+</rules>
+<tables>
+<table id="SHOPDB.OPTIM.OPTIM_SALES" records="10"/>
+</tables>
+</config>
+<config name="tst1">
+<description/>
+<params/>
+<rules>
+<rule id="Sales1" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB.OPTIM.OPTIM_SALES" records="10"/>
+<table id="SHOPDB.OPTIM.OPTIM_CUSTOMERS" records="10"/>
+<table id="SHOPDB.OPTIM.OPTIM_ITEMS" records="10"/>
+<table id="SHOPDB.OPTIM.OPTIM_ORDERS" records="10"/>
+</tables>
+</config>
+</configs>
+</project>

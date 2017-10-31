@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="ARRAY_PARM_Example" type="file" version="2.6">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<sources/>
+<targets>
+<table maxSize="10" minSize="10" name="CUSTOMER">
+<fields>
+<variable name="CUSTNAME" nullable="false" type="String">
+<persistency length="59" style="Fixed"/>
+</variable>
+<array name="TSTARRAY" nullable="false" size="10" type="String">
+<persistency length="8" style="Fixed"/>
+</array>
+<variable name="TSTPARMS" nullable="false" type="String">
+<persistency length="8" style="Fixed"/>
+</variable>
+<variable name="TSTVAR" nullable="false" type="Date">
+<persistency length="10" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+</fields>
+</table>
+</targets>
+</structure>
+<params>
+<set name="TEST1">
+<param name="VAL1" type="String" value="XYZ"/>
+</set>
+</params>
+<rules>
+<ruleset enabled="true" name="TEST1">
+<rule enabled="true" name="CUSTNAME" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="CUSTOMER.CUSTNAME"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\us_full_names.csv</value>
+</path>
+<enum name="CUSTOMER.CUSTNAME" value="1">
+<values>
+<value>1</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="TSTARRAY" type="Constraint Rule">
+<description/>
+<constraint>forEach(CUSTOMER.TSTARRAY = concat(subField(regExpToString(r'[a-zA-Z]'),0,0), subField(regExpToString(r'[a-zA-z]'),0,0)))</constraint>
+</rule>
+<rule enabled="true" name="TSTPARMS" type="Constraint Rule">
+<description/>
+<constraint>forEach(CUSTOMER.TSTPARMS = TEST1.VAL1)</constraint>
+</rule>
+<rule enabled="true" name="TSTVARA" type="Constraint Rule">
+<description/>
+<constraint>forEach(dayOfWeek(CUSTOMER.TSTVAR) notMemberOf{Sat, Sun})</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="test1">
+<description/>
+<params/>
+<rules>
+<rule id="TEST1" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="TESTAB1.CSV" writemode="Overwrite">
+<structs>
+<struct id="CUSTOMER"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+</configs>
+</project>
