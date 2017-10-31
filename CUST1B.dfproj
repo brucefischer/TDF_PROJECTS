@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="CUST1B" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources/>
+<targets>
+<db alias="SAMPLE" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="TARGET" name="TARGET">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="CUST1">
+<rule enabled="true" name="CUST_ID" type="Unique Sequential Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CUST_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="2147483647" min="1" name="Min Value" value="5"/>
+</properties>
+</rule>
+<rule enabled="true" name="SALESMAN_ID" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_SALES.SALESMAN_ID  = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+<rule enabled="true" name="ORDER_ID" type="Unique Sequential Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_ORDERS.ORDER_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="2147483647" min="1" name="Min Value" value="8"/>
+</properties>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="TEST">
+<description/>
+<params/>
+<rules>
+<rule id="CUST1" type="RULESET"/>
+</rules>
+<tables>
+<table id="SAMPLE.TARGET.OPTIM_CUSTOMERS" records="5000"/>
+<table id="SAMPLE.TARGET.OPTIM_SALES" records="5000"/>
+<table id="SAMPLE.TARGET.OPTIM_ORDERS" records="5000"/>
+</tables>
+</config>
+</configs>
+</project>

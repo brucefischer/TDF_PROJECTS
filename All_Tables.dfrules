@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="All_Tables">
+<ruleset enabled="true" name="Customers">
+<rule enabled="true" name="CUSTOMERS_CUST_ID" type="Unique Random String Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CUST_ID"/>
+</targets>
+</columns>
+<properties>
+<enum name="Alphabet" value="[0-9]">
+<values>
+<value>[0-9]</value>
+<value>[a-z]</value>
+<value>[A-Z]</value>
+<value>[0-9]|[a-z]</value>
+<value>[0-9]|[A-Z]</value>
+<value>[a-z no vowels]</value>
+<value>[A-Z no vowels]</value>
+</values>
+</enum>
+<int max="32" min="1" name="Length" value="5"/>
+</properties>
+</rule>
+<ruleset enabled="true" name="CUSTOMER_ADDRESS">
+<rule enabled="true" name="CUSTOMER_ADDRESS1" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ADDRESS1"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ADDRESS2"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.CITY"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.STATE"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ZIPPLUS4"/>
+<column id="SAMPLE.PRIVACY.OPTIM_US_ADDRESSES.ZIPCODE"/>
+</sources>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.ADDRESS1"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.ADDRESS2"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CITY"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.STATE"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE_PLUS4"/>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<rule enabled="true" name="CUSTOMERS_CUSTNAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="SAMPLE.PRIVACY.OPTIM_COMPANY.NAME"/>
+</sources>
+<targets>
+<column id="localhost.TARGET.OPTIM_CUSTOMERS.CUSTNAME"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ORDERS">
+<rule enabled="true" name="ORDERS_ORDER_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="localhost.TARGET.OPTIM_ORDERS.ORDER_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="8"/>
+</properties>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="DETAILS">
+<rule enabled="true" name="DETAILS_ITEM_QUANTITY" type="Constraint Rule">
+<description/>
+<constraint>1 &lt;= localhost.TARGET.OPTIM_DETAILS.ITEM_QUANTITY &lt;= 100</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="ITEMS">
+<rule enabled="true" name="ITEMS_ITEM_ID" type="Constraint Rule">
+<description/>
+<constraint>localhost.TARGET.OPTIM_ITEMS.ITEM_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="SALES">
+<rule enabled="true" name="SALES_SALESMAN_ID" type="Constraint Rule">
+<description/>
+<constraint>localhost.TARGET.OPTIM_SALES.SALESMAN_ID = r'[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+</ruleset>
+</rules>

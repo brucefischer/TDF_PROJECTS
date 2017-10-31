@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="ProjectDB1" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="KNOWLEDG" type="server">
+<id dbms="DB2" host="192.168.99.100" name="KNOWLEDG" port="50000"/>
+<schemas>
+<schema alias="USA" name="USA">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="OLDCRED" type="server">
+<id dbms="DB2" host="192.168.99.100" name="OLDCRED" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="SHOPDB" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="DFP_KnowledgeBase" type="file">
+<id dbms="SQLite" name="DFP_KB.db" path="C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\"/>
+<schemas>
+<schema alias="main" name="main">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="sample" type="server">
+<id dbms="DB2" host="192.168.1.100" name="sample" port="50001"/>
+<schemas>
+<schema alias="BFISCHER" name="BFISCHER">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="SHOPDB_TARGET" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="TARGET" name="TARGET">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="CLIENT_RS">
+<rule enabled="true" name="CLIENT_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.CLIENT_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="6"/>
+</properties>
+</rule>
+<rule enabled="true" name="FIRST_NAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.names.name"/>
+</sources>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.FIRST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="LAST_NAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.surnames.name"/>
+</sources>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="SSN" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CCN" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.ISSUER"/>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SHOPDB_TARGET.TARGET.CLIENT.ISSUER">
+<values>
+<value>SHOPDB_TARGET.TARGET.CLIENT.ISSUER</value>
+<value>SHOPDB_TARGET.TARGET.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SHOPDB_TARGET.TARGET.CLIENT.CCN">
+<values>
+<value>SHOPDB_TARGET.TARGET.CLIENT.ISSUER</value>
+<value>SHOPDB_TARGET.TARGET.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="PHONE" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="Location" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.us_cities.city"/>
+<column id="DFP_KnowledgeBase.main.us_cities.state"/>
+<column id="DFP_KnowledgeBase.main.us_postal_codes.state_code"/>
+</sources>
+<targets>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.CITY"/>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.STATE"/>
+<column id="SHOPDB_TARGET.TARGET.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="EXPIRATION_DT" type="Transformation Rule">
+<description/>
+<constraint>(SHOPDB_TARGET.TARGET.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="TST1">
+<description/>
+<params/>
+<rules>
+<rule id="CLIENT_RS" type="RULESET"/>
+</rules>
+<tables>
+<table id="SHOPDB_TARGET.TARGET.CLIENT" records="10"/>
+</tables>
+</config>
+</configs>
+</project>

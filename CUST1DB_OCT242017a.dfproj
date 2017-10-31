@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="CUST1DB_OCT242017a" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="SOURCE_SAMPLE" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="PRIVACY" name="PRIVACY">
+<filters/>
+</schema>
+<schema alias="TARGET" name="TARGET">
+<filters/>
+</schema>
+<schema alias="OPTIM" name="OPTIM">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="DFP_KnowledgeBase" type="file">
+<id dbms="SQLite" name="DFP_KB.db" path="C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\"/>
+<schemas>
+<schema alias="main" name="main">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="OLDCRED" type="server">
+<id dbms="DB2" host="192.168.99.100" name="OLDCRED" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="SAMPLE" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="TARGET" name="TARGET">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params>
+<set name="NAME"/>
+</params>
+<rules>
+<ruleset enabled="true" name="CUST1">
+<rule enabled="false" name="CUST_ID" type="Unique Random String Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CUST_ID"/>
+</targets>
+</columns>
+<properties>
+<enum name="Alphabet" value="[0-9]">
+<values>
+<value>[0-9]</value>
+<value>[a-z]</value>
+<value>[A-Z]</value>
+<value>[0-9]|[a-z]</value>
+<value>[0-9]|[A-Z]</value>
+<value>[a-z no vowels]</value>
+<value>[A-Z no vowels]</value>
+</values>
+</enum>
+<int max="32" min="1" name="Length" value="5"/>
+</properties>
+</rule>
+<rule enabled="true" name="SALESMAN_ID" type="Unique Random String Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_SALES.SALESMAN_ID"/>
+</targets>
+</columns>
+<properties>
+<enum name="Alphabet" value="[0-9]">
+<values>
+<value>[0-9]</value>
+<value>[a-z]</value>
+<value>[A-Z]</value>
+<value>[0-9]|[a-z]</value>
+<value>[0-9]|[A-Z]</value>
+<value>[a-z no vowels]</value>
+<value>[A-Z no vowels]</value>
+</values>
+</enum>
+<int max="32" min="1" name="Length" value="6"/>
+</properties>
+</rule>
+<rule enabled="true" name="ORDER_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_ORDERS.ORDER_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="8"/>
+</properties>
+</rule>
+<rule enabled="true" name="ITEM_ID" type="Unique Sequential Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_ITEMS.ITEM_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="2147483647" min="1" name="Min Value" value="5"/>
+</properties>
+</rule>
+<rule enabled="true" name="ADDRESS1" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.us_addresses.street"/>
+<column id="DFP_KnowledgeBase.main.us_addresses.city"/>
+<column id="DFP_KnowledgeBase.main.us_addresses.zip"/>
+<column id="DFP_KnowledgeBase.main.us_addresses.state"/>
+</sources>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.ADDRESS1"/>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CITY"/>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE"/>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.STATE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CUSTNAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="DFP_KnowledgeBase.main.names.name"/>
+</sources>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CUSTNAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="LOCALITY" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.LOCALITY = (s'')</constraint>
+</rule>
+<rule enabled="true" name="ADDRESS2" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.ADDRESS2 = (s'')</constraint>
+</rule>
+<rule enabled="true" name="EMAIL_ADDRESS" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.EMAIL_ADDRESS == concat(SAMPLE.TARGET.OPTIM_CUSTOMERS.CUSTNAME,s'.',SAMPLE.TARGET.OPTIM_CUSTOMERS.CITY,r'@(gmail|yahoo|hotmail)\.(com|org)')</constraint>
+</rule>
+<rule enabled="true" name="PHONE_NUMBER" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.PHONE_NUMBER"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="NATIONALITY" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.NATIONALITY == s'US'</constraint>
+</rule>
+<rule enabled="true" name="CREDITCARD_CVV" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_CVV = r'[1-9]{2}[2-9]{2}'</constraint>
+</rule>
+<rule enabled="true" name="DRIVER_LICENSE" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.DRIVER_LICENSE = (r'F|R|G{1}[1-9]{9}')</constraint>
+</rule>
+<rule enabled="true" name="CREDITCARD_Rule" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_TYPE"/>
+<column id="SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_NUMBER"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_TYPE">
+<values>
+<value>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_TYPE</value>
+<value>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_NUMBER</value>
+</values>
+</enum>
+<enum name="Number" value="SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_NUMBER">
+<values>
+<value>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_TYPE</value>
+<value>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_NUMBER</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="POSTAL_CODE_PLUS4" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE_PLUS4 = s'0000'</constraint>
+</rule>
+</ruleset>
+<rule enabled="true" name="CREDITCARD_EXP" type="Transformation Rule">
+<description/>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_EXP</constraint>
+</rule>
+</rules>
+<configs>
+<config name="CUST1">
+<description/>
+<params/>
+<rules>
+<rule id="CUST1" type="RULESET"/>
+</rules>
+<tables>
+<table id="SAMPLE.TARGET.OPTIM_CUSTOMERS" records="10"/>
+<table id="SAMPLE.TARGET.OPTIM_SALES" records="10"/>
+<table id="SAMPLE.TARGET.OPTIM_ORDERS" records="10"/>
+<table id="SAMPLE.TARGET.OPTIM_ITEMS" records="10"/>
+</tables>
+</config>
+</configs>
+</project>

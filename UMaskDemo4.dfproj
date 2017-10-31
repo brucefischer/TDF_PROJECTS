@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="UMaskDemo4" type="file" version="2.6">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<sources/>
+<targets>
+<table maxSize="20" minSize="20" name="UMASKTBL">
+<fields>
+<variable name="ACCOUNT" nullable="false" type="String">
+<persistency length="16" style="Fixed"/>
+</variable>
+<variable name="NAMEF" nullable="false" type="String">
+<persistency length="20" style="Fixed"/>
+</variable>
+<variable name="NAMEL" nullable="false" type="String">
+<persistency length="25" style="Fixed"/>
+</variable>
+<variable name="ADDRESS1" nullable="false" type="String">
+<persistency length="50" style="Fixed"/>
+</variable>
+<variable name="CITY" nullable="false" type="String">
+<persistency length="25" style="Fixed"/>
+</variable>
+<variable name="STATE" nullable="false" type="String">
+<persistency length="2" style="Fixed"/>
+</variable>
+<variable name="ZIP" nullable="false" type="String">
+<persistency length="10" style="Fixed"/>
+</variable>
+<variable name="SSN" nullable="false" type="String">
+<persistency length="11" style="Fixed"/>
+</variable>
+<struct name="TEST">
+<fields>
+<variable name="NewType_1" nullable="false" type="String">
+<persistency length="8" style="Fixed"/>
+</variable>
+</fields>
+</struct>
+</fields>
+</table>
+</targets>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="UMASK1">
+<rule enabled="true" name="NAMEL" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.NAMEL"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\names.csv</value>
+</path>
+<enum name="UMASKTBL.NAMEL" value="1">
+<values>
+<value>1</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="NAMEF" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.NAMEF"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\surnames.csv</value>
+</path>
+<enum name="UMASKTBL.NAMEF" value="1">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+<value>6</value>
+<value>7</value>
+<value>8</value>
+<value>9</value>
+<value>10</value>
+<value>11</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.STATE"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="No header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\us_addresses.csv</value>
+</path>
+<enum name="UMASKTBL.STATE" value="4">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="ADDRESS1" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.ADDRESS1"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="No header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\us_addresses.csv</value>
+</path>
+<enum name="UMASKTBL.ADDRESS1" value="2">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="ZIP" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.ZIP"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="No header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\us_addresses.csv</value>
+</path>
+<enum name="UMASKTBL.ZIP" value="5">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.CITY"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="No header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files (x86)\TDFApplication\files\KnowledgeBase\DFP_KB\us_addresses.csv</value>
+</path>
+<enum name="UMASKTBL.CITY" value="3">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="ACCOUNT" type="Constraint Rule">
+<description/>
+<constraint>forEach(UMASKTBL.ACCOUNT = r'[1-9]{1}[0-9]{15}')</constraint>
+</rule>
+<rule enabled="true" name="SSN" type="Constraint Rule">
+<description/>
+<constraint>forEach(UMASKTBL.SSN = r'[3-9]{3}\-[1-9]{2}\-[0-9]{4}')</constraint>
+</rule>
+</ruleset>
+<rule enabled="true" name="TEST" type="SQL Select Rule">
+<description/>
+<variables>
+<sources/>
+<targets/>
+</variables>
+<properties>
+<text name="Connection string">
+<value>db2://localhost:50001/SAMPLE</value>
+</text>
+<text name="Username">
+<value>bfischer</value>
+</text>
+<secret name="Password">
+<value>C359E1ED6B1107A9702A5CF18A659EE4</value>
+</secret>
+<text name="Query">
+<value>SELECT FIRSTNAME   FROM PRIVACY.OPTIM_US_FIRSTNAME   WHERE SEQ = 100</value>
+</text>
+</properties>
+</rule>
+<rule enabled="true" name="NewType_1" type="SQL Select Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="UMASKTBL.TEST.NewType_1"/>
+</targets>
+</variables>
+<properties>
+<text name="Connection string">
+<value>db2://localhost:50001/SAMPLE</value>
+</text>
+<text name="Username">
+<value>bfischer</value>
+</text>
+<secret name="Password">
+<value>C359E1ED6B1107A9702A5CF18A659EE4</value>
+</secret>
+<text name="Query">
+<value>SELECT FIRSTNAME   FROM PRIVACY.OPTIM_US_FIRSTNAME   WHERE SEQ = 100</value>
+</text>
+</properties>
+</rule>
+</rules>
+<configs>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="UMaskDemo1">
+<description/>
+<params/>
+<rules>
+<rule id="UMASK1" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="UMaskDemo.CSV" writemode="Overwrite">
+<structs>
+<struct id="UMASKTBL"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="rrrr">
+<description/>
+<params/>
+<rules/>
+<fileconfigs>
+<fileconfig filename="NewType_1" writemode="Overwrite">
+<structs>
+<struct id="UMASKTBL.TEST"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="xxxx">
+<description/>
+<params/>
+<rules>
+<rule id="TEST" type="RULE"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="NewType_1" writemode="Overwrite">
+<structs>
+<struct id="UMASKTBL.TEST"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="xxw">
+<description/>
+<params/>
+<rules>
+<rule id="NewType_1" type="RULE"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="NewType_1" writemode="Overwrite">
+<structs>
+<struct id="UMASKTBL.TEST"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="dad">
+<description/>
+<params/>
+<rules>
+<rule id="NewType_1" type="RULE"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="NewType_1" writemode="Overwrite">
+<structs>
+<struct id="UMASKTBL.TEST"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+</configs>
+</project>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="BookStore_v2" type="file" version="2.6">
+<properties>
+<enum name="Date format" value="dd/MM/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<sources/>
+<targets>
+<table maxSize="200" minSize="50" name="Books">
+<fields>
+<variable name="ISBN" nullable="false" type="String">
+<persistency length="26" style="Fixed"/>
+</variable>
+<variable name="FirstName" nullable="false" type="String"/>
+<variable name="LastName" nullable="false" type="String"/>
+<variable name="Type" nullable="false" type="String">
+<persistency length="40" style="Fixed"/>
+</variable>
+<variable name="AuthorName" nullable="false" type="String">
+<persistency length="100" style="Fixed"/>
+</variable>
+<variable name="IssueDate" nullable="false" type="Date">
+<persistency length="15" style="Fixed">
+<enum name="Format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+</persistency>
+</variable>
+<variable name="Price" nullable="false" type="Integer">
+<persistency length="7" style="Fixed"/>
+</variable>
+<variable name="Available" nullable="false" type="Integer">
+<persistency length="6" style="Fixed"/>
+</variable>
+<variable name="isExpensive" nullable="false" type="Boolean"/>
+</fields>
+</table>
+</targets>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="DefaultRules">
+<rule enabled="true" name="Type" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.Type memberOf{s'Fiction',s'NonFiction',s'Children',s'Educational',s'Travel',s'Culinary'})</constraint>
+</rule>
+<rule enabled="true" name="Price" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.Price memberOf{[2,300]})</constraint>
+</rule>
+<rule enabled="true" name="ExpensiveBooks" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.isExpensive = (Books.Price &gt; 100))</constraint>
+</rule>
+<rule enabled="true" name="ISBN" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.ISBN = r'97[89]\-[0-9]{2}\-[0-9]{5}\-[0-9]{2}\-[1-9]')</constraint>
+</rule>
+<rule enabled="true" name="Author" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.AuthorName = concat(Books.FirstName,s' ', Books.LastName))</constraint>
+</rule>
+<rule enabled="true" name="Available" type="Constraint Rule">
+<description/>
+<constraint>forEach(Books.Available = (Books.isExpensive? {[2,20]}:{[10,400]}))</constraint>
+</rule>
+<rule enabled="true" name="IssueDate" type="Constraint Rule">
+<description/>
+<constraint>forEach((Books.IssueDate &gt;= 20/06/1974) and (Books.IssueDate &lt;= CurrentDate) )</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="QualityRules">
+<rule enabled="true" name="Coverage" type="Constraint Rule">
+<description/>
+<constraint>randomCover(tuple(Books.Type,Books.isExpensive),tuple({s'Fiction',s'NonFiction',s'Children',s'Educational',s'Travel',s'Culinary'},{True,False}))</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="IntermediateRules">
+<ruleset enabled="true" name="AuthorNames">
+<rule enabled="true" name="LastName" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="Books.LastName"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files\TDFApplication\files\KnowledgeBase\DFP_KB\surnames.csv</value>
+</path>
+<enum name="Books.LastName" value="1">
+<values>
+<value>1</value>
+<value>2</value>
+<value>3</value>
+<value>4</value>
+<value>5</value>
+<value>6</value>
+<value>7</value>
+<value>8</value>
+<value>9</value>
+<value>10</value>
+<value>11</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FirstName" type="Knowledge Base Rule">
+<description/>
+<variables>
+<sources/>
+<targets>
+<variable id="Books.FirstName"/>
+</targets>
+</variables>
+<properties>
+<enum name="Source reuse strategy" value="Random">
+<values>
+<value>Random</value>
+<value>Coverage / Random</value>
+<value>Sequential</value>
+<value>Exclusion</value>
+</values>
+</enum>
+<enum name="Source header" value="With header">
+<values>
+<value>No header</value>
+<value>With header</value>
+</values>
+</enum>
+<path name="File path">
+<value>C:\Program Files\TDFApplication\files\KnowledgeBase\DFP_KB\names.csv</value>
+</path>
+<enum name="Books.FirstName" value="1">
+<values>
+<value>1</value>
+</values>
+</enum>
+</properties>
+</rule>
+</ruleset>
+</ruleset>
+</rules>
+<configs>
+<config filePath="C:\Program Files\TDFApplication\files\Fabricated" name="GenerateBookRecords">
+<description/>
+<params/>
+<rules>
+<rule id="DefaultRules" type="RULESET"/>
+<rule id="QualityRules" type="RULESET"/>
+<rule id="IntermediateRules" type="RULESET"/>
+</rules>
+<fileconfigs>
+<fileconfig filename="books.xls" writemode="Overwrite">
+<structs>
+<struct id="Books"/>
+</structs>
+</fileconfig>
+</fileconfigs>
+</config>
+</configs>
+</project>

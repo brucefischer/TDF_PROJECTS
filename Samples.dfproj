@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="Samples" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="KNOWLEDG" type="server">
+<id dbms="DB2" host="192.168.99.100" name="KNOWLEDG" port="50000"/>
+<schemas>
+<schema alias="USA" name="USA">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="RH6DB2" type="server">
+<id dbms="DB2" host="192.168.40.50" name="RH6DB2" port="50000"/>
+<schemas>
+<schema alias="SAMPLESOUT" name="SAMPLESOUT">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="SamplesoutRuleSet">
+<ruleset enabled="true" name="SalesRules">
+<rule enabled="false" name="SALESMAN_ID" type="Constraint Rule">
+<description/>
+<constraint>RH6DB2.SAMPLESOUT.OPTIM_SALES.SALESMAN_ID = concat(s'SA',randomNumber(1000,8500))</constraint>
+</rule>
+<rule enabled="true" name="NATIONALITY" type="Constraint Rule">
+<description/>
+<constraint>RH6DB2.SAMPLESOUT.OPTIM_SALES.NATIONALITY = s'US'</constraint>
+</rule>
+<rule enabled="true" name="LAST_NAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_SALES.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="AGE" type="Constraint Rule">
+<description/>
+<constraint>RH6DB2.SAMPLESOUT.OPTIM_SALES.AGE = randomNumber(25,55)</constraint>
+</rule>
+<rule enabled="true" name="FIRST_NAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+</sources>
+<targets>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_SALES.FIRST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="SEX" type="Constraint Rule">
+<description/>
+<constraint>RH6DB2.SAMPLESOUT.OPTIM_SALES.SEX = randomWeightedNumber(51?s'F',49?s'M')</constraint>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="CustRules">
+<rule enabled="true" name="CityStZip" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_CUSTOMERS.CITY"/>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_CUSTOMERS.STATE"/>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_CUSTOMERS.POSTAL_CODE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CUSTNAME" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="RH6DB2.SAMPLESOUT.OPTIM_CUSTOMERS.CUSTNAME"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+</ruleset>
+</rules>
+<configs>
+<config name="SamplesoutFab">
+<description/>
+<params/>
+<rules>
+<rule id="SamplesoutRuleSet" type="RULESET"/>
+</rules>
+<tables>
+<table id="RH6DB2.SAMPLESOUT.OPTIM_SALES" records="10"/>
+<table id="RH6DB2.SAMPLESOUT.OPTIM_CUSTOMERS" records="20"/>
+</tables>
+</config>
+</configs>
+</project>

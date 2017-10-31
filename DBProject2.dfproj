@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="DBProject2" type="db" version="2.4">
+<properties>
+<enum name="Date format" value="MM/dd/yyyy">
+<values>
+<value>MM/dd/yyyy</value>
+<value>dd/MM/yyyy</value>
+<value>yyyy/MM/dd</value>
+<value>yyyy/dd/MM</value>
+<value>MM-dd-yyyy</value>
+<value>dd-MM-yyyy</value>
+<value>yyyy-MM-dd</value>
+<value>yyyy-dd-MM</value>
+<value>MMddyyyy</value>
+<value>ddMMyyyy</value>
+<value>yyyyMMdd</value>
+<value>yyyyddMM</value>
+<value>MMddyy</value>
+<value>ddMMyy</value>
+<value>yyMMdd</value>
+<value>yyddMM</value>
+<value>DDDyyyy</value>
+<value>yyyyDDD</value>
+<value>DDDyy</value>
+<value>yyDDD</value>
+</values>
+</enum>
+<enum name="Time format" value="HH:mm:ss">
+<values>
+<value>HH:mm:ss</value>
+<value>HHmmss</value>
+</values>
+</enum>
+</properties>
+<structure>
+<resources>
+<sources>
+<db alias="SHOPDB" type="server">
+<id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</sources>
+<targets>
+<db alias="NEWSHOP" type="server">
+<id dbms="DB2" host="192.168.99.100" name="NEWSHOP" port="50000"/>
+<schemas>
+<schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+</targets>
+</resources>
+<stereotypes/>
+</structure>
+<params/>
+<rules>
+<ruleset enabled="true" name="Product">
+<rule enabled="true" name="ProductTR" type="Transformation Rule">
+<description/>
+<constraint>(NEWSHOP.DB2INST1.PRODUCT.PRODUCT_ID = SHOPDB.DB2INST1.PRODUCT.PRODUCT_ID)
+and
+(NEWSHOP.DB2INST1.PRODUCT.AVAILABLE = SHOPDB.DB2INST1.PRODUCT.AVAILABLE)
+and
+(NEWSHOP.DB2INST1.PRODUCT.NAME = SHOPDB.DB2INST1.PRODUCT.NAME)
+and
+(NEWSHOP.DB2INST1.PRODUCT.PRICE = SHOPDB.DB2INST1.PRODUCT.PRICE )</constraint>
+</rule>
+</ruleset>
+</rules>
+<configs>
+<config name="XX">
+<description/>
+<params/>
+<rules>
+<rule id="Product.ProductTR" type="RULE"/>
+</rules>
+<tables>
+<table id="NEWSHOP.DB2INST1.PRODUCT" records="5"/>
+</tables>
+</config>
+<config name="DD">
+<description/>
+<params/>
+<rules>
+<rule id="Product.ProductTR" type="RULE"/>
+</rules>
+<tables>
+<table id="NEWSHOP.DB2INST1.PRODUCT" records="1"/>
+</tables>
+</config>
+</configs>
+</project>
