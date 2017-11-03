@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="xProductCreationRules">
+<rule enabled="true" name="prices" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.SHOPDB.PRODUCT.PRICE &gt; 10 &amp;&amp; SAMPLE.SHOPDB.PRODUCT.PRICE &lt; 2000</constraint>
+</rule>
+<rule enabled="true" name="availability" type="Constraint Rule">
+<description/>
+<constraint>((SAMPLE.SHOPDB.PRODUCT.PRICE &gt; 1000) -&gt; SAMPLE.SHOPDB.PRODUCT.AVAILABLE memberOf{[2,20]})&amp;&amp; ((SAMPLE.SHOPDB.PRODUCT.PRICE &lt;= 1000) -&gt; SAMPLE.SHOPDB.PRODUCT.AVAILABLE memberOf{[10,400]})</constraint>
+</rule>
+<rule enabled="true" name="product_names" type="Constraint Rule">
+<description/>
+<constraint>SAMPLE.SHOPDB.PRODUCT.NAME = r'PR_[A-Z]{2}[0-9]{3}'</constraint>
+</rule>
+</ruleset>
+</rules>

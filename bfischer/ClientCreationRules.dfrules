@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="ClientCreationRules">
+<rule enabled="true" name="names" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.FIRST_NAME"/>
+<column id="SHOPDB.DB2INST1.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="phones" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ssn" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CreditCard" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.ISSUER"/>
+<column id="SHOPDB.DB2INST1.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SHOPDB.DB2INST1.CLIENT.ISSUER">
+<values>
+<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
+<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SHOPDB.DB2INST1.CLIENT.CCN">
+<values>
+<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
+<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
+<description/>
+<constraint>(SHOPDB.DB2INST1.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+<rule enabled="true" name="addresses" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+<column id="SHOPDB.DB2INST1.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+</sources>
+<targets>
+<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+</rules>

@@ -84,7 +84,7 @@
 </params>
 <rules>
 <ruleset enabled="true" name="CUST1">
-<rule enabled="false" name="CUST_ID" type="Unique Random String Rule">
+<rule enabled="true" name="CUST_ID" type="Unique Random String Rule">
 <description/>
 <columns>
 <sources/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="ShopDemo" type="db" version="2.4">
+<project name="ShopDemo1a" type="db" version="2.4">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -57,6 +57,14 @@
 <id dbms="DB2" host="192.168.99.100" name="SHOPDB" port="50000"/>
 <schemas>
 <schema alias="DB2INST1" name="DB2INST1">
+<filters/>
+</schema>
+</schemas>
+</db>
+<db alias="SAMPLE" type="server">
+<id dbms="DB2" host="localhost" name="SAMPLE" port="50001"/>
+<schemas>
+<schema alias="DemoTDF" name="DemoTDF">
 <filters/>
 </schema>
 </schemas>
@@ -201,6 +209,204 @@
 <constraint>(SHOPDB.DB2INST1.ORDER.PAYMENT = s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = concat(SHOPDB.DB2INST1.CLIENT.ISSUER,SHOPDB.DB2INST1.CLIENT.CCN)) &amp;&amp; (SHOPDB.DB2INST1.ORDER.PAYMENT != s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = s'')</constraint>
 </rule>
 </ruleset>
+<ruleset enabled="true" name="SAMPLEDB">
+<ruleset enabled="true" name="ClientCreationRules">
+<rule enabled="true" name="names" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.FIRST_NAME"/>
+<column id="SAMPLE.DemoTDF.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="phones" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ssn" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CreditCard" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.ISSUER"/>
+<column id="SAMPLE.DemoTDF.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SAMPLE.DemoTDF.CLIENT.ISSUER">
+<values>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SAMPLE.DemoTDF.CLIENT.CCN">
+<values>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
+<description/>
+<constraint>(SAMPLE.DemoTDF.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+<rule enabled="true" name="addresses" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
+<column id="SAMPLE.DemoTDF.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+<ruleset enabled="true" name="XClientCreationRules">
+<rule enabled="true" name="names" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.FIRST_NAME"/>
+<column id="SAMPLE.DemoTDF.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="phones" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.PHONE"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ssn" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CreditCard" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.ISSUER"/>
+<column id="SAMPLE.DemoTDF.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SAMPLE.DemoTDF.CLIENT.ISSUER">
+<values>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SAMPLE.DemoTDF.CLIENT.CCN">
+<values>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
+<description/>
+<constraint>(SAMPLE.DemoTDF.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+<rule enabled="true" name="addresses" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
+<column id="SAMPLE.DemoTDF.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+</sources>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+</ruleset>
 </rules>
 <configs>
 <config name="ClientConfiguration">
@@ -219,7 +425,9 @@
 <rules>
 <rule id="ProductCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="60"/>
+</tables>
 </config>
 <config name="OrderConfiguration">
 <description/>
@@ -227,7 +435,11 @@
 <rules>
 <rule id="OrderCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SHOPDB.DB2INST1.ORDER" records="50"/>
+<table id="SHOPDB.DB2INST1.CLIENT" records="0"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="50"/>
+</tables>
 </config>
 <config name="FullFabrication">
 <description/>
@@ -239,16 +451,18 @@
 </rules>
 <tables>
 <table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="30"/>
+<table id="SHOPDB.DB2INST1.ORDER" records="40"/>
 </tables>
 </config>
-<config name="x">
+<config name="vv">
 <description/>
 <params/>
 <rules>
-<rule id="ClientCreationRules.names" type="RULE"/>
+<rule id="SAMPLEDB.ClientCreationRules.names" type="RULE"/>
 </rules>
 <tables>
-<table id="SHOPDB.DB2INST1.CLIENT" records="1"/>
+<table id="SAMPLE.DemoTDF.CLIENT" records="10"/>
 </tables>
 </config>
 </configs>

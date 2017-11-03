@@ -83,6 +83,21 @@
 <set name="NAME"/>
 </params>
 <rules>
+<ruleset enabled="true" name="ALL">
+<ruleset enabled="true" name="SALES">
+<rule enabled="true" name="NATIONAL_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.TARGET.OPTIM_SALES.NATIONAL_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="10"/>
+</properties>
+</rule>
+</ruleset>
 <ruleset enabled="true" name="CUST1">
 <rule enabled="true" name="CUST_ID" type="Unique Random String Rule">
 <description/>
@@ -243,24 +258,35 @@
 <description/>
 <constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.POSTAL_CODE_PLUS4 = s'0000'</constraint>
 </rule>
-</ruleset>
 <rule enabled="true" name="CREDITCARD_EXP" type="Transformation Rule">
 <description/>
-<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_EXP</constraint>
+<constraint>SAMPLE.TARGET.OPTIM_CUSTOMERS.CREDITCARD_EXP = SOURCE_SAMPLE.OPTIM.OPTIM_CUSTOMERS.CREDITCARD_EXP</constraint>
 </rule>
+</ruleset>
+</ruleset>
 </rules>
 <configs>
 <config name="CUST1">
 <description/>
 <params/>
 <rules>
-<rule id="CUST1" type="RULESET"/>
+<rule id="ALL.CUST1" type="RULESET"/>
 </rules>
 <tables>
 <table id="SAMPLE.TARGET.OPTIM_CUSTOMERS" records="10"/>
 <table id="SAMPLE.TARGET.OPTIM_SALES" records="10"/>
 <table id="SAMPLE.TARGET.OPTIM_ORDERS" records="10"/>
 <table id="SAMPLE.TARGET.OPTIM_ITEMS" records="10"/>
+</tables>
+</config>
+<config name="SALES">
+<description/>
+<params/>
+<rules>
+<rule id="ALL.SALES" type="RULESET"/>
+</rules>
+<tables>
+<table id="SAMPLE.TARGET.OPTIM_SALES" records="10"/>
 </tables>
 </config>
 </configs>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="ShopDemo" type="db" version="2.4">
+<project name="DemoStateFarm" type="db" version="2.4">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -219,7 +219,9 @@
 <rules>
 <rule id="ProductCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="60"/>
+</tables>
 </config>
 <config name="OrderConfiguration">
 <description/>
@@ -227,7 +229,11 @@
 <rules>
 <rule id="OrderCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SHOPDB.DB2INST1.ORDER" records="50"/>
+<table id="SHOPDB.DB2INST1.CLIENT" records="0"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="50"/>
+</tables>
 </config>
 <config name="FullFabrication">
 <description/>
@@ -239,16 +245,8 @@
 </rules>
 <tables>
 <table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
-</tables>
-</config>
-<config name="x">
-<description/>
-<params/>
-<rules>
-<rule id="ClientCreationRules.names" type="RULE"/>
-</rules>
-<tables>
-<table id="SHOPDB.DB2INST1.CLIENT" records="1"/>
+<table id="SHOPDB.DB2INST1.PRODUCT" records="30"/>
+<table id="SHOPDB.DB2INST1.ORDER" records="40"/>
 </tables>
 </config>
 </configs>

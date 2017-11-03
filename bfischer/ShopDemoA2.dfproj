@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="ShopDemo" type="db" version="2.4">
+<project name="ShopDemoA2" type="db" version="2.4">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -76,8 +76,8 @@
 <column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
 </sources>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.FIRST_NAME"/>
-<column id="SHOPDB.DB2INST1.CLIENT.LAST_NAME"/>
+<column id="SAMPLE.DemoTDF.CLIENT.FIRST_NAME"/>
+<column id="SAMPLE.DemoTDF.CLIENT.LAST_NAME"/>
 </targets>
 </columns>
 </rule>
@@ -86,7 +86,7 @@
 <columns>
 <sources/>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.PHONE"/>
+<column id="SAMPLE.DemoTDF.CLIENT.PHONE"/>
 </targets>
 </columns>
 </rule>
@@ -95,7 +95,7 @@
 <columns>
 <sources/>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.SSN"/>
+<column id="SAMPLE.DemoTDF.CLIENT.SSN"/>
 </targets>
 </columns>
 </rule>
@@ -104,28 +104,28 @@
 <columns>
 <sources/>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.ISSUER"/>
-<column id="SHOPDB.DB2INST1.CLIENT.CCN"/>
+<column id="SAMPLE.DemoTDF.CLIENT.ISSUER"/>
+<column id="SAMPLE.DemoTDF.CLIENT.CCN"/>
 </targets>
 </columns>
 <properties>
-<enum name="Issuer" value="SHOPDB.DB2INST1.CLIENT.ISSUER">
+<enum name="Issuer" value="SAMPLE.DemoTDF.CLIENT.ISSUER">
 <values>
-<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
-<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
 </values>
 </enum>
-<enum name="Number" value="SHOPDB.DB2INST1.CLIENT.CCN">
+<enum name="Number" value="SAMPLE.DemoTDF.CLIENT.CCN">
 <values>
-<value>SHOPDB.DB2INST1.CLIENT.ISSUER</value>
-<value>SHOPDB.DB2INST1.CLIENT.CCN</value>
+<value>SAMPLE.DemoTDF.CLIENT.ISSUER</value>
+<value>SAMPLE.DemoTDF.CLIENT.CCN</value>
 </values>
 </enum>
 </properties>
 </rule>
 <rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
 <description/>
-<constraint>(SHOPDB.DB2INST1.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+<constraint>(SAMPLE.DemoTDF.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
 </rule>
 <rule enabled="true" name="addresses" type="Knowledge Base Rule">
 <description/>
@@ -136,9 +136,9 @@
 <column id="KNOWLEDG.USA.ZIPS.ZIP"/>
 </sources>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
-<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
-<column id="SHOPDB.DB2INST1.CLIENT.ZIP"/>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
+<column id="SAMPLE.DemoTDF.CLIENT.ZIP"/>
 </targets>
 </columns>
 </rule>
@@ -149,7 +149,7 @@
 <column id="KNOWLEDG.USA.ZIPS.CITY"/>
 </sources>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.CITY"/>
+<column id="SAMPLE.DemoTDF.CLIENT.CITY"/>
 </targets>
 </columns>
 </rule>
@@ -160,7 +160,7 @@
 <column id="KNOWLEDG.USA.ZIPS.STATE"/>
 </sources>
 <targets>
-<column id="SHOPDB.DB2INST1.CLIENT.STATE"/>
+<column id="SAMPLE.DemoTDF.CLIENT.STATE"/>
 </targets>
 </columns>
 </rule>
@@ -168,37 +168,37 @@
 <ruleset enabled="true" name="ProductCreationRules">
 <rule enabled="true" name="prices" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.PRODUCT.PRICE &gt; 10 &amp;&amp; SHOPDB.DB2INST1.PRODUCT.PRICE &lt; 2000</constraint>
+<constraint>SAMPLE.DemoTDF.PRODUCT.PRICE &gt; 10 &amp;&amp; SAMPLE.DemoTDF.PRODUCT.PRICE &lt; 2000</constraint>
 </rule>
 <rule enabled="true" name="availability" type="Constraint Rule">
 <description/>
-<constraint>((SHOPDB.DB2INST1.PRODUCT.PRICE &gt; 1000) -&gt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE memberOf{[2,20]})&amp;&amp; ((SHOPDB.DB2INST1.PRODUCT.PRICE &lt;= 1000) -&gt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE memberOf{[10,400]})</constraint>
+<constraint>((SAMPLE.DemoTDF.PRODUCT.PRICE &gt; 1000) -&gt; SAMPLE.DemoTDF.PRODUCT.AVAILABLE memberOf{[2,20]})&amp;&amp; ((SAMPLE.DemoTDF.PRODUCT.PRICE &lt;= 1000) -&gt; SAMPLE.DemoTDF.PRODUCT.AVAILABLE memberOf{[10,400]})</constraint>
 </rule>
 <rule enabled="true" name="product_names" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.PRODUCT.NAME = r'PR_[A-Z]{2}[0-9]{3}'</constraint>
+<constraint>SAMPLE.DemoTDF.PRODUCT.NAME = r'PR_[A-Z]{2}[0-9]{3}'</constraint>
 </rule>
 </ruleset>
 <ruleset enabled="true" name="OrderCreationRules">
 <rule enabled="true" name="amount" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.ORDER.AMOUNT &lt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE &amp;&amp; SHOPDB.DB2INST1.ORDER.AMOUNT &gt; 0</constraint>
+<constraint>SAMPLE.DemoTDF.ORDER.AMOUNT &lt; SAMPLE.DemoTDF.PRODUCT.AVAILABLE &amp;&amp; SAMPLE.DemoTDF.ORDER.AMOUNT &gt; 0</constraint>
 </rule>
 <rule enabled="true" name="cost" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.ORDER.COST &gt; 0 &amp;&amp; SHOPDB.DB2INST1.ORDER.COST &lt; SHOPDB.DB2INST1.PRODUCT.PRICE</constraint>
+<constraint>SAMPLE.DemoTDF.ORDER.COST &gt; 0 &amp;&amp; SAMPLE.DemoTDF.ORDER.COST &lt; SAMPLE.DemoTDF.PRODUCT.PRICE</constraint>
 </rule>
 <rule enabled="true" name="payment" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.ORDER.PAYMENT memberOf{s'Cash', s'Credit'}</constraint>
+<constraint>SAMPLE.DemoTDF.ORDER.PAYMENT memberOf{s'Cash', s'Credit'}</constraint>
 </rule>
 <rule enabled="true" name="status" type="Constraint Rule">
 <description/>
-<constraint>SHOPDB.DB2INST1.ORDER.STATUS = randomWeightedNumber(50?s'DELIVERED',40?s'ISSUED',10?s'CANCELED')</constraint>
+<constraint>SAMPLE.DemoTDF.ORDER.STATUS = randomWeightedNumber(50?s'DELIVERED',40?s'ISSUED',10?s'CANCELED')</constraint>
 </rule>
 <rule enabled="true" name="details" type="Constraint Rule">
 <description/>
-<constraint>(SHOPDB.DB2INST1.ORDER.PAYMENT = s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = concat(SHOPDB.DB2INST1.CLIENT.ISSUER,SHOPDB.DB2INST1.CLIENT.CCN)) &amp;&amp; (SHOPDB.DB2INST1.ORDER.PAYMENT != s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = s'')</constraint>
+<constraint>(SAMPLE.DemoTDF.ORDER.PAYMENT = s'Credit' -&gt; SAMPLE.DemoTDF.ORDER.DETAILS = concat(SAMPLE.DemoTDF.CLIENT.ISSUER,SAMPLE.DemoTDF.CLIENT.CCN)) &amp;&amp; (SAMPLE.DemoTDF.ORDER.PAYMENT != s'Credit' -&gt; SAMPLE.DemoTDF.ORDER.DETAILS = s'')</constraint>
 </rule>
 </ruleset>
 </rules>
@@ -210,7 +210,7 @@
 <rule id="ClientCreationRules" type="RULESET"/>
 </rules>
 <tables>
-<table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
+<table id="SAMPLE.DemoTDF.CLIENT" records="10"/>
 </tables>
 </config>
 <config name="ProductConfiguration">
@@ -219,7 +219,9 @@
 <rules>
 <rule id="ProductCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SAMPLE.DemoTDF.PRODUCT" records="60"/>
+</tables>
 </config>
 <config name="OrderConfiguration">
 <description/>
@@ -227,7 +229,11 @@
 <rules>
 <rule id="OrderCreationRules" type="RULESET"/>
 </rules>
-<tables/>
+<tables>
+<table id="SAMPLE.DemoTDF.PRODUCT" records="50"/>
+<table id="SAMPLE.DemoTDF.ORDER" records="50"/>
+<table id="SAMPLE.DemoTDF.CLIENT" records="0"/>
+</tables>
 </config>
 <config name="FullFabrication">
 <description/>
@@ -238,17 +244,9 @@
 <rule id="OrderCreationRules" type="RULESET"/>
 </rules>
 <tables>
-<table id="SHOPDB.DB2INST1.CLIENT" records="10"/>
-</tables>
-</config>
-<config name="x">
-<description/>
-<params/>
-<rules>
-<rule id="ClientCreationRules.names" type="RULE"/>
-</rules>
-<tables>
-<table id="SHOPDB.DB2INST1.CLIENT" records="1"/>
+<table id="SAMPLE.DemoTDF.CLIENT" records="10"/>
+<table id="SAMPLE.DemoTDF.PRODUCT" records="30"/>
+<table id="SAMPLE.DemoTDF.ORDER" records="40"/>
 </tables>
 </config>
 </configs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="CLIENT1">
+<rule enabled="true" name="CLIENT_ID" type="Unique Random Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.DemoTDF.CLIENT.CLIENT_ID"/>
+</targets>
+</columns>
+<properties>
+<int max="32" min="1" name="Length" value="6"/>
+</properties>
+</rule>
+</ruleset>
+</rules>

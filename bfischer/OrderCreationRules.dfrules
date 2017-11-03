@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="OrderCreationRules">
+<rule enabled="true" name="amount" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.AMOUNT &lt; SHOPDB.DB2INST1.PRODUCT.AVAILABLE &amp;&amp; SHOPDB.DB2INST1.ORDER.AMOUNT &gt; 0</constraint>
+</rule>
+<rule enabled="true" name="cost" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.COST &gt; 0 &amp;&amp; SHOPDB.DB2INST1.ORDER.COST &lt; SHOPDB.DB2INST1.PRODUCT.PRICE</constraint>
+</rule>
+<rule enabled="true" name="payment" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.PAYMENT memberOf{s'Cash', s'Credit'}</constraint>
+</rule>
+<rule enabled="true" name="status" type="Constraint Rule">
+<description/>
+<constraint>SHOPDB.DB2INST1.ORDER.STATUS = randomWeightedNumber(50?s'DELIVERED',40?s'ISSUED',10?s'CANCELED')</constraint>
+</rule>
+<rule enabled="true" name="details" type="Constraint Rule">
+<description/>
+<constraint>(SHOPDB.DB2INST1.ORDER.PAYMENT = s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = concat(SHOPDB.DB2INST1.CLIENT.ISSUER,SHOPDB.DB2INST1.CLIENT.CCN)) &amp;&amp; (SHOPDB.DB2INST1.ORDER.PAYMENT != s'Credit' -&gt; SHOPDB.DB2INST1.ORDER.DETAILS = s'')</constraint>
+</rule>
+</ruleset>
+</rules>

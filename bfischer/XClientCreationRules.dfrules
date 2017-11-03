@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rules type="db" version="2.4">
+<ruleset enabled="true" name="XClientCreationRules">
+<rule enabled="true" name="names" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.FIRST_NAMES.FIRST_NAME"/>
+<column id="KNOWLEDG.USA.LAST_NAMES.LAST_NAME"/>
+</sources>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.FIRST_NAME"/>
+<column id="SAMPLE.SHOPDB.CLIENT.LAST_NAME"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="phones" type="USA Phone Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.PHONE"/> SAMPLE.SHOPDB
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="ssn" type="Social Security Number Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.SSN"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CreditCard" type="Credit Card Rule">
+<description/>
+<columns>
+<sources/>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.ISSUER"/>
+<column id="SAMPLE.SHOPDB.CLIENT.CCN"/>
+</targets>
+</columns>
+<properties>
+<enum name="Issuer" value="SAMPLE.SHOPDB.CLIENT.ISSUER">
+<values>
+<value>SAMPLE.SHOPDB.CLIENT.ISSUER</value>
+<value>SAMPLE.SHOPDB.CLIENT.CCN</value>
+</values>
+</enum>
+<enum name="Number" value="SAMPLE.SHOPDB.CLIENT.CCN">
+<values>
+<value>SAMPLE.SHOPDB.CLIENT.ISSUER</value>
+<value>SAMPLE.SHOPDB.CLIENT.CCN</value>
+</values>
+</enum>
+</properties>
+</rule>
+<rule enabled="true" name="FutureDateExpiration" type="Transformation Rule">
+<description/>
+<constraint>(SAMPLE.SHOPDB.CLIENT.EXPIRATION_DT = dateToString(advanceMonth(stringToDate(OLDCRED.DB2INST1.CC_EXP_TABLE.EXP_DT,MY),60,ROUND_UP),MY))</constraint>
+</rule>
+<rule enabled="true" name="addresses" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+<column id="KNOWLEDG.USA.ZIPS.ZIP"/>
+</sources>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.CITY"/>
+<column id="SAMPLE.SHOPDB.CLIENT.STATE"/>
+<column id="SAMPLE.SHOPDB.CLIENT.ZIP"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="CITY" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.CITY"/>
+</sources>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.CITY"/>
+</targets>
+</columns>
+</rule>
+<rule enabled="true" name="STATE" type="Knowledge Base Rule">
+<description/>
+<columns>
+<sources>
+<column id="KNOWLEDG.USA.ZIPS.STATE"/>
+</sources>
+<targets>
+<column id="SAMPLE.SHOPDB.CLIENT.STATE"/>
+</targets>
+</columns>
+</rule>
+</ruleset>
+</rules>
