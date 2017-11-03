@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="StateFarmDemo1a" type="db" version="2.4">
+<project name="StateFarmDemo1b" type="db" version="2.4">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -65,7 +65,12 @@
 </resources>
 <stereotypes/>
 </structure>
-<params/>
+<params>
+<set name="PARM">
+<param name="VAL1" type="Integer" value="5"/>
+<param name="VAL2" type="Integer" value="500"/>
+</set>
+</params>
 <rules>
 <ruleset enabled="true" name="ALL_Rules">
 <ruleset enabled="true" name="XClientCreationRules">
@@ -169,7 +174,7 @@
 <ruleset enabled="true" name="xProductCreationRules">
 <rule enabled="true" name="prices" type="Constraint Rule">
 <description/>
-<constraint>SAMPLE.SHOPDB.PRODUCT.PRICE &gt; 10 &amp;&amp; SAMPLE.SHOPDB.PRODUCT.PRICE &lt; 2000</constraint>
+<constraint>SAMPLE.SHOPDB.PRODUCT.PRICE &gt; PARM.VAL1 &amp;&amp; SAMPLE.SHOPDB.PRODUCT.PRICE &lt; PARM.VAL2</constraint>
 </rule>
 <rule enabled="true" name="availability" type="Constraint Rule">
 <description/>

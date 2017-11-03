@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="VariableStructure" type="file" version="2.6">
+<project name="VariableStructure1a" type="file" version="2.6">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -231,7 +231,7 @@
 </ruleset>
 </rules>
 <configs>
-<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="Ex1">
+<config filePath="C:\Users\BFischer\DataFAB" name="Ex1">
 <description/>
 <params/>
 <rules>
@@ -245,7 +245,7 @@
 </fileconfig>
 </fileconfigs>
 </config>
-<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="Ex2">
+<config filePath="C:\Users\BFischer\DataFAB" name="Ex2">
 <description/>
 <params/>
 <rules>
@@ -259,28 +259,28 @@
 </fileconfig>
 </fileconfigs>
 </config>
-<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="Ex4">
+<config filePath="C:\Users\BFischer\DataFAB" name="Ex4">
 <description/>
 <params/>
 <rules>
 <rule id="Ex4" type="RULESET"/>
 </rules>
 <fileconfigs>
-<fileconfig filename="NewType_1" writemode="Overwrite">
+<fileconfig filename="Ex4.csv" writemode="Overwrite">
 <structs>
 <struct id="Ex4"/>
 </structs>
 </fileconfig>
 </fileconfigs>
 </config>
-<config filePath="C:\Program Files (x86)\TDFApplication\files\Fabricated" name="Ex7">
+<config filePath="C:\Users\BFischer\DataFAB" name="Ex7">
 <description/>
 <params/>
 <rules>
 <rule id="Ex7" type="RULESET"/>
 </rules>
 <fileconfigs>
-<fileconfig filename="NewType_1" writemode="Overwrite">
+<fileconfig filename="Ex7.csv" writemode="Overwrite">
 <structs>
 <struct id="Ex7"/>
 </structs>
