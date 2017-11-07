@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="StateFarmDemo1b" type="db" version="2.4">
+<project name="StateFarmDemo1c" type="db" version="2.4">
 <properties>
 <enum name="Date format" value="MM/dd/yyyy">
 <values>
@@ -66,9 +66,21 @@
 <stereotypes/>
 </structure>
 <params>
-<set name="PARM">
+<set name="PARM_SET1">
 <param name="VAL1" type="Integer" value="5"/>
 <param name="VAL2" type="Integer" value="500"/>
+</set>
+<set name="PCT1">
+<param name="VAL1" type="Integer" value="1"/>
+<param name="VAL2" type="Integer" value="1"/>
+</set>
+<set name="PCT2">
+<param name="VAL1" type="Integer" value="1"/>
+<param name="VAL2" type="Integer" value="1"/>
+</set>
+<set name="PCT3">
+<param name="VAL1" type="Integer" value="1"/>
+<param name="VAL2" type="Integer" value="1"/>
 </set>
 </params>
 <rules>
@@ -174,7 +186,7 @@
 <ruleset enabled="true" name="xProductCreationRules">
 <rule enabled="true" name="prices" type="Constraint Rule">
 <description/>
-<constraint>SAMPLE.SHOPDB.PRODUCT.PRICE &gt; PARM.VAL1 &amp;&amp; SAMPLE.SHOPDB.PRODUCT.PRICE &lt; PARM.VAL2</constraint>
+<constraint>SAMPLE.SHOPDB.PRODUCT.PRICE &gt; PARM_SET1.VAL1 &amp;&amp; SAMPLE.SHOPDB.PRODUCT.PRICE &lt; PARM_SET1.VAL2</constraint>
 </rule>
 <rule enabled="true" name="availability" type="Constraint Rule">
 <description/>
@@ -192,7 +204,7 @@
 </rule>
 <rule enabled="true" name="cost" type="Constraint Rule">
 <description/>
-<constraint>SAMPLE.SHOPDB.ORDER.COST &gt; 0 &amp;&amp; SAMPLE.SHOPDB.ORDER.COST &lt; SAMPLE.SHOPDB.PRODUCT.PRICE</constraint>
+<constraint>SAMPLE.SHOPDB.ORDER.COST = randomWeightedNumber(PCT1.VAL1 ? PCT1.VAL2,PCT2.VAL1 ? PCT2.VAL2,PCT3.VAL1 ? PCT3.VAL2)</constraint>
 </rule>
 <rule enabled="true" name="payment" type="Constraint Rule">
 <description/>
